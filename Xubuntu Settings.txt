@@ -1,0 +1,84 @@
+# Automount a driver with user permission:
+1. Check drive Id
+lsblk
+
+2. Go to Session and Starup -> Application Autostart -> Add
+2.1 name it and type in following into command field:
+gvfs-mount -d /dev/<driveId>
+
+
+# Create a dropbox launcher:
+create a launcher and expand Exec= with
+env DBUS_SESSION_BUS_ADDRESS="" dropbox start -i
+
+
+# Insall FlashPlayer
+sudo apt-get install pepperflashplugin-nonfree
+sudo update-pepperflashplugin-nonfree --install
+
+
+# Install Java 8:
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo java -version
+sudo update-alternatives --config java
+
+
+# Install DockBarX
+sudo add-apt-repository ppa:dockbar-main/ppa
+sudo apt-get update
+sudo apt-get install --no-install-recommends xfce4-dockbarx-plugin
+
+
+# Change cpu driver from intel_pstate to acpi-cpufreq
+sudo nano /etc/default/grub
+change:
+GRUB_CMDLINE_LINUX_DEFAULT="intel_pstate=disable quiet splash"
+
+sudo update-grub
+reboot
+
+
+# Install cpu indicator
+sudo apt-get install indicator-cpufreq
+sudo cp /usr/share/icons/ubuntu-mono-dark/status/22/indicator-cpufreq* /usr/share/pixmaps/
+
+
+# Speedup Shut down
+$ sudo systemctl edit cups-browsed.service 
+add:
+[Service]
+TimeoutStopSec=10
+
+sudo systemctl daemon-reload 
+
+
+# Get Cpu Clock:
+watch -n 0 "lscpu | grep 'MHz'"
+
+
+# Install ssh server
+sudo apt install openssh-server
+
+# Disable ssh server on startup
+sudo update-rc.d ssh disable
+
+# Start ssh server
+sudo service ssh start
+
+# Stop ssh server
+sudo service ssh stop
+
+
+# Reset local dns lookup
+sudo kill -HUP $(pgrep dnsmasq)
+
+# View local lookup
+nslookup
+
+
+# Integrate google calendar
+sudo add-apt-repository ppa:atareao/atareao
+sudo apt update
+sudo apt install calendar-indicator
